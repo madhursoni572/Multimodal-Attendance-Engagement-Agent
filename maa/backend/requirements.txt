@@ -1,0 +1,13 @@
+fastapi
+uvicorn[standard]
+opencv-python-headless
+numpy
+pandas
+python-multipart
+websockets
+librosa
+soundfile
+groq
+python-dotenv
+streamlit
+requests

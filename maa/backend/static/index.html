@@ -1,0 +1,137 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Classroom Pulse · Attendance & Engagement Agent</title>
+<meta name="description" content="Offline, privacy-preserving attendance and engagement analytics for classrooms.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>">
+<style>
+:root{--bg:#0a0f1a;--sf:#121a2b;--ln:#22304a;--tx:#e9eef7;--mu:#8fa0bb;--ac:#5eead4;--ac2:#fbbf24;--bad:#fb7185;--ink:#04201c;--hf:"Iowan Old Style","Palatino Linotype",Georgia,serif}
+@media(prefers-color-scheme:light){:root{--bg:#f6f7fb;--sf:#fff;--ln:#dfe4ee;--tx:#0f1729;--mu:#55627a;--ac:#0f766e;--ac2:#b45309;--bad:#be123c;--ink:#fff}}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:inherit}.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+nav{position:sticky;top:0;z-index:5;backdrop-filter:blur(12px);background:color-mix(in srgb,var(--bg) 82%,transparent);border-bottom:1px solid var(--ln)}
+nav .wrap{display:flex;align-items:center;gap:22px;height:60px}nav b{font-family:var(--hf);font-size:1.15rem;margin-right:auto}
+nav a{text-decoration:none;color:var(--mu);font-size:.92rem}nav a:hover{color:var(--tx)}
+.btn{display:inline-block;border:0;border-radius:999px;padding:11px 22px;background:var(--ac);color:var(--ink);font:600 .95rem system-ui;cursor:pointer;text-decoration:none}
+.btn.ghost{background:transparent;color:var(--tx);border:1px solid var(--ln)}.btn:disabled{opacity:.5;cursor:wait}
+:focus-visible{outline:3px solid var(--ac2);outline-offset:3px}
+.hero{padding:84px 0 64px;display:grid;grid-template-columns:1.1fr .9fr;gap:44px;align-items:center}
+h1{font:600 clamp(2.4rem,5.5vw,4rem)/1.04 var(--hf);letter-spacing:-.02em;margin:0 0 18px}h1 em{color:var(--ac);font-style:italic}
+.lead{color:var(--mu);font-size:1.12rem;max-width:52ch;margin:0 0 26px}.cta{display:flex;gap:12px;flex-wrap:wrap}
+.viz{background:var(--sf);border:1px solid var(--ln);border-radius:18px;padding:18px}.viz small{color:var(--mu);font-size:.8rem}
+.viz svg{width:100%;display:block}.draw{stroke-dasharray:900;stroke-dashoffset:900;animation:d 2.4s .3s forwards ease-out}@keyframes d{to{stroke-dashoffset:0}}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.chips span{font-size:.78rem;border:1px solid var(--ln);border-radius:999px;padding:3px 11px;color:var(--mu)}
+section{padding:60px 0}h2{font:600 clamp(1.7rem,3.4vw,2.4rem)/1.15 var(--hf);margin:0 0 10px;letter-spacing:-.01em}
+.sub{color:var(--mu);max-width:60ch;margin:0 0 30px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.card{background:var(--sf);border:1px solid var(--ln);border-radius:16px;padding:22px}.card h3{margin:0 0 6px;font-size:1.05rem}.card p{margin:0;color:var(--mu);font-size:.95rem}
+.num{font:600 2rem var(--hf);color:var(--ac)}
+.app{background:var(--sf);border:1px solid var(--ln);border-radius:20px;padding:24px}
+.tabs{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap}.tabs button{border:1px solid var(--ln);background:transparent;color:var(--mu);border-radius:999px;padding:8px 16px;font:500 .9rem system-ui;cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--ac);color:var(--ink);border-color:var(--ac)}
+.row{display:flex;gap:14px;flex-wrap:wrap;align-items:end}label{display:flex;flex-direction:column;gap:4px;font-size:.82rem;color:var(--mu)}
+input{font:inherit;padding:9px 11px;border-radius:10px;border:1px solid var(--ln);background:var(--bg);color:var(--tx)}
+.drop{flex:1;min-width:240px}.drop input{width:100%}
+.bar{height:8px;border-radius:6px;background:var(--ln);overflow:hidden;margin-top:16px}.bar i{display:block;height:100%;width:0;background:var(--ac);transition:width .3s}
+.err{color:var(--bad);margin-top:10px;font-size:.9rem}[hidden]{display:none!important}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:26px 0}.stats div{background:var(--bg);border:1px solid var(--ln);border-radius:14px;padding:14px}
+.stats b{display:block;font:600 1.8rem var(--hf)}.stats span{color:var(--mu);font-size:.82rem}
+h4{margin:26px 0 10px;font-size:1rem}canvas{width:100%;height:240px;display:block}
+.leg{display:flex;gap:16px;color:var(--mu);font-size:.8rem;margin-top:6px}.leg i{display:inline-block;width:12px;height:3px;margin-right:5px;vertical-align:middle}
+.heat{display:flex;gap:3px;flex-wrap:wrap}.heat div{width:26px;height:26px;border-radius:6px}
+.tip{border-left:4px solid var(--mu);padding:6px 14px;margin-bottom:10px;background:var(--bg);border-radius:0 10px 10px 0}.tip.high{border-color:var(--bad)}.tip.medium{border-color:var(--ac2)}.tip.info{border-color:var(--ac)}.tip b{display:block}.tip span{color:var(--mu);font-size:.93rem}
+.scroll{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.9rem}th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--ln);white-space:nowrap}th{color:var(--mu);font-weight:500}
+.meter{height:14px;background:var(--ln);border-radius:8px;overflow:hidden;margin:14px 0 8px}.meter i{display:block;height:100%;width:0;background:var(--ac);transition:width .12s}
+footer{border-top:1px solid var(--ln);padding:30px 0;color:var(--mu);font-size:.88rem}
+@media(max-width:820px){.hero{grid-template-columns:1fr;padding-top:48px}nav a.h{display:none}}
+@media(prefers-reduced-motion:reduce){.draw{animation:none;stroke-dashoffset:0}html{scroll-behavior:auto}}
+</style></head><body>
+<nav><div class="wrap"><b>Classroom Pulse</b><a class="h" href="#features">Features</a><a class="h" href="#how">How it works</a><a class="h" href="#privacy">Privacy</a><a class="btn" href="#analyze">Try it</a></div></nav>
+
+<header class="wrap hero">
+ <div><h1>Know who showed up, and <em>how the room felt.</em></h1>
+ <p class="lead">An offline AI agent that turns classroom video and audio into attendance logs, engagement timelines and practical teaching suggestions. No manual roll calls, no face recognition.</p>
+ <div class="cta"><a class="btn" href="#analyze">Analyse a session</a><a class="btn ghost" href="#how">See how it works</a></div></div>
+ <div class="viz" aria-hidden="true"><small>Engagement across a 45-minute session</small>
+  <svg viewBox="0 0 400 170"><g stroke="var(--ln)"><path d="M0 40H400M0 90H400M0 140H400"/></g>
+  <path class="draw" fill="none" stroke="var(--ac)" stroke-width="3" stroke-linecap="round" d="M5 110C40 60 70 50 100 70S150 140 185 120 230 40 270 55 330 130 360 95 385 60 395 50"/>
+  <path class="draw" fill="none" stroke="var(--ac2)" stroke-width="2" stroke-dasharray="4 6" d="M5 130C60 110 120 120 190 100S300 90 395 80"/>
+  <circle cx="185" cy="120" r="5" fill="var(--bad)"/><text x="195" y="150" fill="var(--mu)" font-size="11">attention drop</text></svg>
+  <div class="chips"><span>Presence tracking</span><span>Head orientation</span><span>Audio activity</span><span>Teaching tips</span></div></div>
+</header>
+
+<section id="features"><div class="wrap"><h2>Everything a session tells you</h2><p class="sub">Three scenarios, one pipeline. Each result is explainable, and the thresholds are yours to tune.</p>
+<div class="grid">
+<div class="card"><div class="num">01</div><h3>Automated attendance</h3><p>Presence is confirmed by sustained time in view, not a single frame, with timestamped logs and CSV export.</p></div>
+<div class="card"><div class="num">02</div><h3>Engagement dynamics</h3><p>Attention, movement, stillness and speech activity are fused into a score for every 30 seconds.</p></div>
+<div class="card"><div class="num">03</div><h3>Teaching suggestions</h3><p>Context-aware advice on pacing, breaks and interaction. It supports the instructor and never decides for them.</p></div></div></div></section>
+
+<section id="how"><div class="wrap"><h2>How it works</h2><p class="sub">From raw footage to decisions in four steps.</p>
+<div class="grid"><div class="card"><div class="num">1</div><h3>Detect and track</h3><p>Faces are found and followed as anonymous IDs (P1, P2…).</p></div>
+<div class="card"><div class="num">2</div><h3>Listen</h3><p>Noise level and speech-versus-silence are measured per window.</p></div>
+<div class="card"><div class="num">3</div><h3>Fuse and score</h3><p>Rule-based reasoning combines both signals into a High, Medium or Low engagement level.</p></div>
+<div class="card"><div class="num">4</div><h3>Advise</h3><p>The agent flags drops, silent stretches, late arrivals and suggests what to try.</p></div></div></div></section>
+
+<section id="analyze"><div class="wrap"><h2>Analyse a session</h2><p class="sub">Upload a recording to get the full report. Processing happens on this server.</p>
+<div class="app">
+ <div class="tabs" role="tablist"><button role="tab" aria-selected="true" data-t="up">Upload recording</button><button role="tab" aria-selected="false" data-t="cam">Server webcam</button><button role="tab" aria-selected="false" data-t="mic">Live mic meter</button></div>
+ <form id="up" data-p="up" class="row"><label class="drop">Classroom video<input type="file" name="video" accept="video/*" required></label>
+  <label>Minimum presence (s)<input type="number" name="min_presence" value="10" min="2" style="width:130px"></label><button class="btn">Analyse recording</button></form>
+ <form id="cam" data-p="cam" class="row" hidden><label>Camera index<input type="number" name="camera" value="0" min="0" style="width:110px"></label><label>Duration (s)<input type="number" name="seconds" value="60" min="10" style="width:110px"></label>
+  <label>Minimum presence (s)<input type="number" name="min_presence" value="10" min="2" style="width:130px"></label><button class="btn">Start webcam analysis</button>
+  <p class="sub" style="width:100%;margin:6px 0 0">Uses a camera attached to the machine running the server, so it suits local or on-premise deployments.</p></form>
+ <div data-p="mic" hidden><button id="mb" class="btn">Start microphone</button><div class="meter"><i id="mm"></i></div><div id="mt" class="sub" style="margin:0">Microphone is off.</div></div>
+ <div id="prog" hidden><div class="bar"><i id="pb"></i></div><div id="pt" class="sub" style="margin:8px 0 0"></div></div><div id="err" class="err" role="alert"></div>
+</div>
+<div id="out" hidden>
+ <div class="stats" id="stats"></div>
+ <div class="app"><h4 style="margin-top:0">Engagement over time</h4><canvas id="chart" role="img" aria-label="Engagement timeline"></canvas>
+  <div class="leg"><span><i style="background:var(--ac)"></i>Engagement</span><span><i style="background:#22c55e"></i>Attention</span><span><i style="background:var(--ac2)"></i>Audio activity</span></div>
+  <h4>Level per 30 s window</h4><div class="heat" id="heat"></div>
+  <h4>Teaching suggestions</h4><div id="tips"></div><div id="ai"></div>
+  <div class="row" style="justify-content:space-between;margin-top:26px"><h4 style="margin:0">Attendance and student analytics</h4><a id="csv" class="btn ghost">Download CSV</a></div>
+  <div class="scroll" style="margin-top:10px"><table><thead><tr><th>Participant</th><th>Status</th><th>First seen</th><th>Last seen</th><th>Present</th><th>Attention</th><th>Still (s)</th><th>Engagement</th><th>Present intervals</th></tr></thead><tbody id="rows"></tbody></table></div></div></div>
+</div></section>
+
+<section id="privacy"><div class="wrap"><div class="card"><h2>Privacy by design</h2><p style="font-size:1rem">Participants are anonymous IDs and no faces are stored or matched to identities. Uploaded video is deleted as soon as analysis finishes. Everything runs on your own server, and the optional cloud language model sees only aggregate numbers, and only if you add a key.</p></div></div></section>
+<footer><div class="wrap">Classroom Pulse · Multimodal Attendance & Engagement Agent</div></footer>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],pc=v=>Math.round(v*100)+'%';let R=null;
+$$('[data-t]').forEach(b=>b.onclick=()=>{$$('[data-t]').forEach(x=>x.setAttribute('aria-selected',x===b));$$('[data-p]').forEach(p=>p.hidden=p.dataset.p!==b.dataset.t)});
+const busy=v=>$$('button.btn').forEach(b=>b.disabled=v);
+function fail(m){$('#err').textContent=m;$('#prog').hidden=true;busy(false)}
+async function begin(url,form){$('#err').textContent='';$('#out').hidden=true;$('#prog').hidden=false;$('#pb').style.width='0';$('#pt').textContent='Starting…';busy(true);
+ try{const r=await fetch(url,{method:'POST',body:new FormData(form)}),j=await r.json();if(!r.ok)throw Error(j.detail||'Request failed');poll(j.job)}catch(e){fail(e.message)}}
+function poll(id){const t=setInterval(async()=>{try{const j=await(await fetch('/api/jobs/'+id)).json();$('#pb').style.width=pc(j.progress||0);$('#pt').textContent='Analysing… '+pc(j.progress||0);
+ if(j.status==='done'){clearInterval(t);$('#prog').hidden=true;busy(false);show(j.result,id)}if(j.status==='error'){clearInterval(t);fail(j.error)}}catch(e){clearInterval(t);fail('Lost connection to the server.')}},1200)}
+$('#up').onsubmit=e=>{e.preventDefault();begin('/api/analyze',e.target)};$('#cam').onsubmit=e=>{e.preventDefault();begin('/api/webcam',e.target)};
+const lc={High:'#22c55e',Medium:'#fbbf24',Low:'#fb7185'};
+function show(r,id){R=r;$('#out').hidden=false;$('#csv').href='/api/export/'+id+'.csv';
+ $('#stats').innerHTML=[[r.duration_label,'Session length'],[r.present_count,'Counted present'],[r.peak_people,'Peak faces in view'],[pc(r.avg_engagement),'Average engagement']].map(a=>`<div><b>${a[0]}</b><span>${a[1]}</span></div>`).join('');
+ $('#heat').innerHTML=r.timeline.map(w=>`<div style="background:${lc[w.level]}" title="${w.label} · ${w.level} (${pc(w.engagement)})"></div>`).join('');
+ $('#tips').innerHTML=r.suggestions.map(s=>`<div class="tip ${s.priority}"><b>${s.title}</b><span>${s.detail}</span></div>`).join('');
+ $('#ai').innerHTML=r.ai_summary?`<div class="tip info"><b>AI summary</b><span style="white-space:pre-wrap">${r.ai_summary.replace(/</g,'&lt;')}</span></div>`:'';
+ $('#rows').innerHTML=r.students.map(s=>`<tr><td>${s.id}</td><td>${s.status}</td><td>${s.first_seen}</td><td>${s.last_seen}</td><td>${s.present_seconds}s</td><td>${pc(s.attention)}</td><td>${s.inactive_seconds}</td><td>${pc(s.engagement)}</td><td>${s.intervals}</td></tr>`).join('')||'<tr><td colspan="9">No faces were tracked.</td></tr>';
+ chart(r.timeline);$('#out').scrollIntoView({behavior:'smooth'})}
+function chart(tl){const c=$('#chart'),d=devicePixelRatio||1,w=c.clientWidth,h=240;c.width=w*d;c.height=h*d;const x=c.getContext('2d');x.scale(d,d);
+ const st=getComputedStyle(document.body),g=k=>st.getPropertyValue(k).trim(),P=36,n=tl.length,X=i=>P+(n<2?(w-P)/2:i*(w-P-12)/(n-1)),Y=v=>h-24-v*(h-40);
+ x.strokeStyle=g('--ln');x.fillStyle=g('--mu');x.font='11px system-ui';
+ [0,.5,1].forEach(v=>{x.beginPath();x.moveTo(P,Y(v));x.lineTo(w-8,Y(v));x.stroke();x.fillText(pc(v),2,Y(v)+4)});
+ tl.forEach((p,i)=>{if(i%Math.ceil(n/8)==0)x.fillText(p.label,X(i)-12,h-6)});
+ [['engagement',g('--ac'),3],['attention','#22c55e',1.5],['audio',g('--ac2'),1.5]].forEach(([k,col,lw])=>{x.beginPath();x.strokeStyle=x.fillStyle=col;x.lineWidth=lw;let s=0;
+  tl.forEach((p,i)=>{if(p[k]==null)return;s?x.lineTo(X(i),Y(p[k])):x.moveTo(X(i),Y(p[k]));s=1});x.stroke();
+  tl.forEach((p,i)=>{if(p[k]==null)return;x.beginPath();x.arc(X(i),Y(p[k]),2.5,0,7);x.fill()})})}
+addEventListener('resize',()=>R&&chart(R.timeline));
+// Live microphone meter -> /ws/audio (16-bit PCM)
+let ws,ctx,stream;
+$('#mb').onclick=async()=>{if(ws){stop();return}
+ try{stream=await navigator.mediaDevices.getUserMedia({audio:true});ctx=new AudioContext({sampleRate:16000});
+  ws=new WebSocket((location.protocol==='https:'?'wss://':'ws://')+location.host+'/ws/audio');
+  ws.onmessage=e=>{const m=JSON.parse(e.data);$('#mm').style.width=Math.max(0,Math.min(100,(m.noise_db+80)/80*100))+'%';$('#mt').textContent=`${m.state} · ${m.noise_db} dB · speech ${pc(m.speech_ratio)}`};
+  const src=ctx.createMediaStreamSource(stream),pr=ctx.createScriptProcessor(4096,1,1);
+  pr.onaudioprocess=e=>{if(ws.readyState!==1)return;const f=e.inputBuffer.getChannelData(0),b=new Int16Array(f.length);for(let i=0;i<f.length;i++)b[i]=Math.max(-1,Math.min(1,f[i]))*32767;ws.send(b.buffer)};
+  src.connect(pr);pr.connect(ctx.destination);$('#mb').textContent='Stop microphone'}
+ catch(e){$('#mt').textContent='Microphone unavailable (needs HTTPS or localhost, and permission).'}};
+function stop(){ws&&ws.close();ws=null;stream&&stream.getTracks().forEach(t=>t.stop());ctx&&ctx.close();$('#mb').textContent='Start microphone';$('#mt').textContent='Microphone is off.';$('#mm').style.width='0'}
+</script></body></html>

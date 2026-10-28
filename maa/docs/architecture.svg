@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" font-family="system-ui,Arial,sans-serif">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#475569"/></marker></defs>
+<rect width="1000" height="400" fill="#f8fafc"/>
+<text x="500" y="28" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">Multimodal Attendance &amp; Engagement Agent: architecture</text>
+<g fill="#e0f2fe" stroke="#0369a1" stroke-width="1.5"><rect x="20" y="70" width="160" height="80" rx="10"/><rect x="20" y="250" width="160" height="80" rx="10"/></g>
+<g fill="#dcfce7" stroke="#15803d" stroke-width="1.5"><rect x="220" y="70" width="160" height="80" rx="10"/><rect x="220" y="250" width="160" height="80" rx="10"/></g>
+<rect x="420" y="160" width="160" height="90" rx="10" fill="#fef3c7" stroke="#b45309" stroke-width="2"/>
+<rect x="620" y="160" width="160" height="90" rx="10" fill="#fce7f3" stroke="#be185d" stroke-width="1.5"/>
+<g fill="#ede9fe" stroke="#6d28d9" stroke-width="1.5"><rect x="820" y="160" width="160" height="90" rx="10"/><rect x="820" y="290" width="160" height="70" rx="10"/></g>
+<rect x="620" y="290" width="160" height="70" rx="10" fill="#f1f5f9" stroke="#475569" stroke-width="1.5"/>
+<g fill="#0f172a" font-size="13" text-anchor="middle">
+<text x="100" y="102" font-weight="700">Video input</text><text x="100" y="122">recorded file / webcam</text>
+<text x="100" y="282" font-weight="700">Audio input</text><text x="100" y="302">video audio track / mic</text>
+<text x="300" y="98" font-weight="700">Vision module</text><text x="300" y="116">face detection · tracking</text><text x="300" y="134">presence intervals</text>
+<text x="300" y="278" font-weight="700">Audio module</text><text x="300" y="296">noise dB · speech ratio</text><text x="300" y="314">activity per 30 s</text>
+<text x="500" y="190" font-weight="700">Multimodal agent</text><text x="500" y="208">signal fusion</text><text x="500" y="226">rule-based scoring</text>
+<text x="700" y="188" font-weight="700">Analytics + advice</text><text x="700" y="206">attendance log · stats</text><text x="700" y="224">teaching suggestions</text><text x="700" y="240" font-size="11">(optional LLM summary)</text>
+<text x="900" y="190" font-weight="700">FastAPI service</text><text x="900" y="208">REST · WebSocket</text><text x="900" y="226">serves the website</text>
+<text x="900" y="322" font-weight="700">Web UI / Streamlit</text><text x="900" y="340">report · CSV export</text>
+<text x="700" y="322" font-weight="700">Local storage</text><text x="700" y="340">JSON results · video deleted</text></g>
+<g stroke="#475569" stroke-width="2" fill="none" marker-end="url(#a)"><path d="M180 110H220"/><path d="M180 290H220"/><path d="M380 110L420 180"/><path d="M380 290L420 230"/><path d="M580 205H620"/><path d="M780 205H820"/><path d="M900 250V290"/><path d="M700 250V290"/></g>
+<text x="500" y="385" text-anchor="middle" font-size="12" fill="#475569">Everything runs on your own server. Participants are anonymous IDs; raw video is deleted after analysis.</text>
+</svg>
