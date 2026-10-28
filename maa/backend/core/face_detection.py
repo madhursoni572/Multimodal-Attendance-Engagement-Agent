@@ -1,5 +1,7 @@
 import cv2
-
+print("OpenCV version:", getattr(cv2, "__version__", "unknown"))
+print("OpenCV loaded from:", getattr(cv2, "__file__", "unknown"))
+print("Has CascadeClassifier:", hasattr(cv2, "CascadeClassifier"))
 
 class FaceDetector:
     """Haar-cascade detector (bundled with OpenCV). Adds a 'frontal' flag: profile faces = looking away."""
