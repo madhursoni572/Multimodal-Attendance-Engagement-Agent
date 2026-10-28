@@ -1,11 +1,5 @@
 ---
 title: Classroom Pulse
-emoji: 📈
-colorFrom: teal
-colorTo: blue
-sdk: docker
-app_port: 8000
-pinned: false
 ---
 
 # Classroom Pulse: Multimodal Attendance & Engagement Agent
@@ -13,9 +7,6 @@ pinned: false
 AI-powered, privacy-preserving classroom intelligence. It processes classroom video and audio to **mark attendance from sustained presence**, **analyse engagement over time**, and **suggest teaching adjustments**. Participants are anonymous IDs, there is no face recognition, uploaded video is deleted after analysis, and everything runs on your own server.
 
 **Links:** GitHub: `ADD-REPO-URL` · Live demo: `ADD-DEMO-URL` · Demo video: `ADD-VIDEO-URL`
-
-![screenshot](docs/screenshot-home.png)
-![screenshot](docs/screenshot-report.png)
 
 ## Features by scenario
 1. **Automated attendance.** Haar-cascade face detection with centroid tracking. A person counts as present only if seen for at least N seconds (default 10) and for one continuous stretch of N/2. Timestamped presence intervals per participant, with CSV export.
@@ -42,7 +33,6 @@ AI-powered, privacy-preserving classroom intelligence. It processes classroom vi
 Optional dashboard: `streamlit run dashboard/dashboard.py`. Docker: `docker compose up --build`.
 
 ## Deploy
-- **Hugging Face Spaces (Docker):** this README's header configures it. Create a Docker Space, then `git remote add space https://huggingface.co/spaces/USER/SPACE && git push space main`.
 - **Render:** New Web Service from the repo (`render.yaml` included).
 - Optional env var `GROQ_API_KEY` (and `GROQ_MODEL`). Without it the system is fully offline.
 
